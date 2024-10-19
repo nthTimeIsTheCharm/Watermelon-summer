@@ -1,0 +1,66 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    block-size: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Noto Sans", sans-serif;
+}
+
+#game-area{
+    background-color: black;
+    inline-size: 80vw;
+    block-size: 80vh;
+    position: relative;
+    
+}
+
+#info{
+    display: flex;
+    justify-content: space-between;
+    inline-size: 80vw;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: normal;
+    padding: 2rem;
+    
+}
+
+#lives ul{
+    list-style: none;
+    display: flex;
+    gap: 0.5rem;
+}
+
+#score{
+    text-align: right;
+}
+
+#player{
+    block-size: 4.5rem;
+    inline-size: 2rem;
+    background-color: azure;
+    position: absolute;
+    inset-inline-end: 50%;
+    inset-block-end: 0;
+}
+
+.rose{
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    background-color: red;
+}
+
+.fireball{
+    inline-size: 3rem;
+    block-size: 3rem;
+    background-color: orange;
+}
