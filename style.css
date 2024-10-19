@@ -58,12 +58,14 @@ body{
     inline-size: 1.5rem;
     block-size: 1.5rem;
     background-color: red;
+    inset-block-start: 0;
 }
 
 .fireball{
     inline-size: 3rem;
     block-size: 3rem;
     background-color: orange;
+    inset-inline-end: 0;
 }
 
 .game-over{
