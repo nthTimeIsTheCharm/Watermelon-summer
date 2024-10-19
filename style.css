@@ -55,8 +55,8 @@ body{
 }
 
 .rose{
-    inline-size: 1.5rem;
-    block-size: 1.5rem;
+    inline-size: 30px;
+    block-size: 30px;
     background-color: red;
     inset-block-start: 0;
 }
