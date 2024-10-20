@@ -11,7 +11,6 @@ class Rose extends InanimateEntity {
     this.element.style.top = 0;
     this.element.style.left = this.getRandomXPosition();
     Rose.rosesArray.push(this);
-    this.id = Rose.rosesArray.indexOf(this);
   }
 
   getRandomXPosition() {

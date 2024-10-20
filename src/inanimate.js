@@ -4,6 +4,7 @@ class InanimateEntity extends GameEntity {
   constructor(speed, direction, type) {
     super(speed, direction);
     this.type = type;
+    this.pointInMovementAxis = 0;
     
     //Create and append the element
     this.element = document.createElement("div");
