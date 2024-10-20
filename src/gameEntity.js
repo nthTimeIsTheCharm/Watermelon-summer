@@ -5,8 +5,8 @@ class GameEntity {
     this.position = [];
   }
 
-  move() {
-    switch (this.direction) {
+  move(direction) {
+    switch (direction) {
       case "up":
         return this.moveUp();
       case "down":
@@ -48,14 +48,23 @@ class GameEntity {
     const gameAreaLeft = game.gameArea.getBoundingClientRect().left;
     const entityLeft = this.element.getBoundingClientRect().left;
 
-    if (gameAreaLeft < entityLeft + this.speed) {
+    if (gameAreaLeft < entityLeft - this.speed) {
       return true;
     } else {
       return false;
     }
   }
 
-  checkRightBoundary() {}
+  checkRightBoundary() {
+    const gameAreaRight = game.gameArea.getBoundingClientRect().right;
+    const entityRight = this.element.getBoundingClientRect().right;
+
+    if (gameAreaRight > entityRight + this.speed) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   moveLeft() {
     const withinBoundary = this.checkLeftBoundary();
@@ -68,6 +77,12 @@ class GameEntity {
   }
 
   moveRight() {
-    
+    const withinBoundary = this.checkRightBoundary();
+    if (withinBoundary) {
+      this.position[1] += this.speed;
+      return `${this.position[1]}`;
+    } else if (this instanceof InanimateEntity) {
+      this.disappear();
+    }
   }
 }

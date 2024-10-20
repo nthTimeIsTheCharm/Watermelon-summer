@@ -33,7 +33,7 @@ function createFireball() {
 
 function moveInanimateEntities(entitiesArray) {
   entitiesArray.forEach((entity) => {
-    const newPosition = `${entity.move()}px`;
+    const newPosition = `${entity.move(entity.direction)}px`;
 
     switch (entity.type) {
       case "rose":
@@ -48,18 +48,19 @@ function moveInanimateEntities(entitiesArray) {
 
 //Move player with event listeners
 document.addEventListener("keydown", (e) => {
-  let newPosition;
+  let newPosition = 0;
   console.log("keyyy");
 
   switch (e.key) {
     case "ArrowLeft":
-      newPosition = player.move();
+      newPosition = `${player.move("left")}px`;
       player.element.style.left = newPosition;
       console.log("left");
       break;
       
       case "ArrowRight":
-        player.move();
+        newPosition = `${player.move("right")}px`;
+        player.element.style.left = newPosition;
         console.log("right");
         break;
 
@@ -118,8 +119,9 @@ function gameLoop() {
   moveInanimateEntities(Rose.rosesArray);
   moveInanimateEntities(Fireball.fireballsArray);
 
-  //detectCollisions();
   //movePlayer
+  
+  //detectCollisions();
 }
 
 requestAnimationFrame(gameLoop);
