@@ -8,8 +8,8 @@ class Rose extends InanimateEntity {
     super(speed, direction, type);
 
     //Element placed all the way to the top in the CSS
-    this.element.style.top = 0;
     this.element.style.left = this.getRandomXPosition();
+    this.position.push(0, null);
     Rose.rosesArray.push(this);
   }
 

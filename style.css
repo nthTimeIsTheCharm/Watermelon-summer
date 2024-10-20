@@ -55,17 +55,19 @@ body{
 }
 
 .rose{
+    position: absolute;
+    inset-block-start: 0;
     inline-size: 30px;
     block-size: 30px;
     background-color: red;
-    inset-block-start: 0;
 }
 
 .fireball{
+    position: absolute;
+    inset-inline-end: 0;
     inline-size: 3rem;
     block-size: 3rem;
     background-color: orange;
-    inset-inline-end: 0;
 }
 
 .game-over{

@@ -3,9 +3,9 @@ class Player extends GameEntity {
     super(speed, direction);
     this.score = 0;
     this.lives = 5;
+    this.jumpHeight = 10;
     this.element = document.getElementById("player");
-    this.positionX = 0;
-    this.positionY = 0;
+    this.position.push(0, this.element.getBoundingClientRect().left);
   }
 
   jump(){

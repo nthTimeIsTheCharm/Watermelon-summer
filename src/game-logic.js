@@ -1,7 +1,7 @@
 //Speed values
 const playerSpeed = 5;
 const roseSpeed = 1;
-const fireballSpeed = 15;
+const fireballSpeed = 1;
 
 //Direction values
 const playerDirection = null;
@@ -33,17 +33,42 @@ function createFireball() {
 
 function moveInanimateEntities(entitiesArray) {
   entitiesArray.forEach((entity) => {
-    const newPosition = `${entity.move(entity.speed, entity.direction)}`;
+    const newPosition = `${entity.move()}px`;
 
-    if (entity.type === "rose") {
-      entity.element.style.top = newPosition;
-    } else if (entity.type === "fireball") {
-      entity.element.style.right = newPosition;
+    switch (entity.type) {
+      case "rose":
+        entity.element.style.top = newPosition;
+        break;
+      case "fireball":
+        entity.element.style.left = newPosition;
+        break;
     }
   });
 }
 
 //Move player with event listeners
+document.addEventListener("keydown", (e) => {
+  let newPosition;
+  console.log("keyyy");
+
+  switch (e.key) {
+    case "ArrowLeft":
+      newPosition = player.move();
+      player.element.style.left = newPosition;
+      console.log("left");
+      break;
+      
+      case "ArrowRight":
+        player.move();
+        console.log("right");
+        break;
+
+    case "arrowUp":
+      break;
+  }
+
+});
+
 
 /* function detectCollisionsRoses(){
   
@@ -77,6 +102,7 @@ fireballsArray.forEach(fireball => {
 
 //Game loop
 let frames = 0;
+
 
 function gameLoop() {
   requestAnimationFrame(gameLoop);

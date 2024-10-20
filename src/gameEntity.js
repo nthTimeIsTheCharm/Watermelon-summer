@@ -2,18 +2,19 @@ class GameEntity {
   constructor(speed, direction) {
     this.speed = speed;
     this.direction = direction;
+    this.position = [];
   }
 
-  move(speed, direction) {
-    switch (direction) {
+  move() {
+    switch (this.direction) {
       case "up":
-        return this.moveUp(speed);
+        return this.moveUp();
       case "down":
-        return this.moveDown(speed);
+        return this.moveDown();
       case "left":
-        return this.moveLeft(speed);
+        return this.moveLeft();
       case "right":
-        return this.moveRight(speed);
+        return this.moveRight();
     }
   }
 
@@ -30,13 +31,13 @@ class GameEntity {
     }
   }
 
-  moveUp(speed) {}
+  moveUp() {}
 
-  moveDown(speed) {
+  moveDown() {
     const withinBoundary = this.checkBottomBoundary();
     if (withinBoundary) {
-      this.pointInMovementAxis += this.speed;
-      return `${this.pointInMovementAxis}px`;
+      this.position[0] += this.speed;
+      return `${this.position[0]}`;
     } else if (this instanceof InanimateEntity) {
       this.disappear();
     }
@@ -56,20 +57,17 @@ class GameEntity {
 
   checkRightBoundary() {}
 
-  moveLeft(speed) {
+  moveLeft() {
     const withinBoundary = this.checkLeftBoundary();
     if (withinBoundary) {
-      this.pointInMovementAxis += this.speed;
-      return `${this.pointInMovementAxis}px`;
+      this.position[1] -= this.speed;
+      return `${this.position[1]}`;
     } else if (this instanceof InanimateEntity) {
       this.disappear();
     }
   }
 
-  moveRight(speed) {
-    const pointInMovementAxisLeft = Math.trunc(
-      this.element.getBoundingClientRect().left
-    );
-    const withinBoundary = this.checkRightBoundary();
+  moveRight() {
+    
   }
 }
