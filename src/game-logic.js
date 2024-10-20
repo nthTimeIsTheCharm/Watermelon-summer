@@ -46,6 +46,19 @@ function moveInanimateEntities(entitiesArray) {
   });
 }
 
+//Get player back to the ground after a jump
+function applyGravity(){
+  if(player.position[0] > 0){
+    const gravityRate = 5;
+    player.position[0] -= gravityRate;
+    player.element.style.bottom = `${player.position[0]}px`;
+    console.log("going down");
+    console.log(player.position[0]);
+  } else if (player.position[0] <= 0) {
+    player.jumpCounter = 0;
+  }
+}
+
 //Move player with event listeners
 document.addEventListener("keydown", (e) => {
   let newPosition = 0;
@@ -64,11 +77,15 @@ document.addEventListener("keydown", (e) => {
         console.log("right");
         break;
 
-    case "arrowUp":
-      break;
+    case "ArrowUp":
+        newPosition = `${player.jump()}px`;
+        player.element.style.bottom = newPosition;
+        break;
   }
-
 });
+
+
+
 
 
 /* function detectCollisionsRoses(){
@@ -102,24 +119,28 @@ fireballsArray.forEach(fireball => {
 } */
 
 //Game loop
-let frames = 0;
+let frame = 0;
 
 
 function gameLoop() {
   requestAnimationFrame(gameLoop);
-  frames++;
+  frame++;
 
-  if (frames % 200 === 0) {
+  if (frame % 200 === 0) {
     createRose();
   }
-  if (frames % 300 === 0) {
+  if (frame % 300 === 0) {
     createFireball();
   }
 
   moveInanimateEntities(Rose.rosesArray);
   moveInanimateEntities(Fireball.fireballsArray);
-
+ 
   //movePlayer
+
+  if ((player.jumpCounter > 0) && (frame % 2 === 0)){
+    applyGravity();
+}
   
   //detectCollisions();
 }

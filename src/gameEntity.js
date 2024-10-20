@@ -19,7 +19,6 @@ class GameEntity {
   }
 
   //Vertical movement
-  checkTopBoundary() {}
   checkBottomBoundary() {
     const gameAreaBottom = game.gameArea.getBoundingClientRect().bottom;
     const entityBottom = this.element.getBoundingClientRect().bottom;
@@ -30,8 +29,6 @@ class GameEntity {
       return false;
     }
   }
-
-  moveUp() {}
 
   moveDown() {
     const withinBoundary = this.checkBottomBoundary();
