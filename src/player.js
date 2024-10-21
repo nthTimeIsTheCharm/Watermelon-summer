@@ -29,14 +29,11 @@ class Player extends GameEntity {
   jump() {
     if (this.jumpCounter === 0) {
       this.position[0] += this.jumpHeight;
-      console.log("1st jump", this.position[0]);
     } else if (this.jumpCounter === 1) {
       const smallerJump = Math.floor(this.jumpHeight / 100)*50;
       this.position[0] += smallerJump;
-      console.log("2nd jump", this.position[0]);
     }
     this.jumpCounter++;
-    console.log("jumpCounter", this.jumpCounter);
     return `${this.position[0]}`;
   }
 

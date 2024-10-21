@@ -8,6 +8,7 @@ class Game {
 
   gameOver() {
     paintGameOver();
-    cancelAnimationFrame(activeLoop);
+    cancelAnimationFrame(internalGameLoop);
+    cancelAnimationFrame(externalGameLoop);
   }
 }

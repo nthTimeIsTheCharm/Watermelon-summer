@@ -51,8 +51,6 @@ function applyGravity(){
     const gravityRate = 5;
     player.position[0] -= gravityRate;
     player.element.style.bottom = `${player.position[0]}px`;
-    console.log("going down");
-    console.log(player.position[0]);
   } else if (player.position[0] <= 0) {
     player.jumpCounter = 0;
   }
@@ -61,19 +59,16 @@ function applyGravity(){
 //Move player with event listeners
 document.addEventListener("keydown", (e) => {
   let newPosition = 0;
-  console.log("keyyy");
 
   switch (e.key) {
     case "ArrowLeft":
       newPosition = `${player.move("left")}px`;
       player.element.style.left = newPosition;
-      console.log("left");
       break;
       
       case "ArrowRight":
         newPosition = `${player.move("right")}px`;
         player.element.style.left = newPosition;
-        console.log("right");
         break;
 
     case "ArrowUp":
@@ -111,7 +106,6 @@ function detectCollisions(entitiesArray){
         case "rose":
           const scoreTracker = document.getElementById("score-value");
           player.earnPoints(entity.pointIncrement);
-          console.log(player.score);
           scoreTracker.textContent = player.score;
           break;
         case "fireball":
@@ -139,9 +133,10 @@ fireballsArray.forEach(fireball => {
   //remove heart
 } */
 
+let internalGameLoop;
 
   function gameLoop() {
-    const activeLoop = requestAnimationFrame(gameLoop);
+    internalGameLoop = requestAnimationFrame(gameLoop);
     game.frame++;
 
     if (game.frame % 200 === 0) {
@@ -165,7 +160,7 @@ fireballsArray.forEach(fireball => {
 
   }
 
- requestAnimationFrame(gameLoop);
+ let externalGameLoop = requestAnimationFrame(gameLoop);
 
 
   function paintGameOver(){
@@ -173,6 +168,9 @@ fireballsArray.forEach(fireball => {
     const gameOverMessage = document.createElement("p");
     gameOverMessage.setAttribute("id", "game-over");
     gameOverMessage.textContent = "Game over";
+    const skull = document.createElement("li");
+    skull.textContent = "🪦";
+    livesUl.appendChild(skull);
     //Remove all the elements of the game area
     game.gameArea.replaceChildren(gameOverMessage);
   }
