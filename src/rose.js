@@ -9,6 +9,7 @@ class Rose extends InanimateEntity {
     this.speed = 1;
     this.direction = "down";
     this.type = "rose";
+    this.pointIncrement = 5;
     this.element = paintOnScreen(this.type);
 
     //Element placed all the way to the top in the CSS

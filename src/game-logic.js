@@ -85,26 +85,48 @@ document.addEventListener("keydown", (e) => {
 
 
 
+function detectCollisions(entitiesArray){
 
+  const playerWidth = player.element.getBoundingClientRect().width;
+  const playerHeight = player.element.getBoundingClientRect().height;
+  const playerPositionRight = player.element.getBoundingClientRect().right;
+  const playerPositionLeft = player.element.getBoundingClientRect().left;
+  const playerPositionTop = player.element.getBoundingClientRect().top;
+  const playerPositionBottom = player.element.getBoundingClientRect().bottom; 
 
-/* function detectCollisionsRoses(){
-  
-  rosesArray.forEach(rose => {
-    //this.elementWidth = this.element.getBoundingClientRect().width;
-    //this.elementHeight = this.element.getBoundingClientRect().height;
-    const rosePositionRight = rose.element.getBoundingClientRect().right;
-    const rosePositionLeft = rose.element.getBoundingClientRect().left;
-    const rosePositionTop = rose.element.getBoundingClientRect().top;
-    const rosePositionBottom = rose.element.getBoundingClientRect().bottom; 
+  entitiesArray.forEach((entity) => {
     
-    if (rose){
-      const score = player.earnPoints(rose.pointIncrement);
-      const scoreTracker = document.getElementById("score");
-      scoreTracker.textContent = score;
+    const entityPositionRight = entity.element.getBoundingClientRect().right;
+    const entityPositionLeft = entity.element.getBoundingClientRect().left;
+    const entityPositionTop = entity.element.getBoundingClientRect().top;
+    const entityPositionBottom = entity.element.getBoundingClientRect().bottom;
+
+    if (
+      entityPositionRight >= playerPositionLeft &&
+      entityPositionLeft <= playerPositionRight &&
+      entityPositionBottom >= playerPositionTop &&
+      entityPositionTop <= playerPositionBottom
+    ) {
+      switch (entity.type) {
+        case "rose":
+          const scoreTracker = document.getElementById("score-value");
+          player.earnPoints(entity.pointIncrement);
+          console.log(player.score);
+          scoreTracker.textContent = player.score;
+          break;
+        case "fireball":
+          player.getHurt(entity.lifeDecrement);
+          livesUl.lastChild.remove();
+          if (player.lives === 0) {
+            game.gameOver();
+          }
+          break;
+        }
+        entity.disappear();
     }
   });
 }
-*/
+
 
 /* function detectCollisionsFireballs(){
   
@@ -119,7 +141,7 @@ fireballsArray.forEach(fireball => {
 
 
   function gameLoop() {
-    requestAnimationFrame(gameLoop);
+    const activeLoop = requestAnimationFrame(gameLoop);
     game.frame++;
 
     if (game.frame % 200 === 0) {
@@ -138,17 +160,19 @@ fireballsArray.forEach(fireball => {
       applyGravity();
     }
 
-    //detectCollisions();
+    detectCollisions(Rose.rosesArray);
+    detectCollisions(Fireball.fireballsArray);
+
   }
 
-  requestAnimationFrame(gameLoop);
+ requestAnimationFrame(gameLoop);
 
 
   function paintGameOver(){
     game.gameArea.classList.add("game-over");
     const gameOverMessage = document.createElement("p");
     gameOverMessage.setAttribute("id", "game-over");
-    gameOverMessage.textContent = "Game over!";
+    gameOverMessage.textContent = "Game over";
     //Remove all the elements of the game area
     game.gameArea.replaceChildren(gameOverMessage);
   }

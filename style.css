@@ -48,7 +48,7 @@ body{
 #player{
     block-size: 4.5rem;
     inline-size: 2rem;
-    background-color: azure;
+    background-color: deeppink;
     position: absolute;
     inset-inline-end: 50%;
     inset-block-end: 0;
@@ -76,4 +76,5 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }

@@ -8,5 +8,6 @@ class Game {
 
   gameOver() {
     paintGameOver();
+    cancelAnimationFrame(activeLoop);
   }
 }

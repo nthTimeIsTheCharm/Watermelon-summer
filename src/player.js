@@ -41,11 +41,11 @@ class Player extends GameEntity {
   }
 
   earnPoints(pointIncrement) {
-    this.score += pointIncrement;
+    return this.score += pointIncrement;
   }
 
   getHurt(lifeDecrement) {
-    this.lives += lifeDecrement;
+    return this.lives -= lifeDecrement;
   }
 }
 

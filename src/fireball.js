@@ -9,6 +9,7 @@ class Fireball extends InanimateEntity {
     this.speed = 1;
     this.direction = "left";
     this.type = "fireball";
+    this.lifeDecrement = 1;
     this.element = paintOnScreen(this.type);
 
     //Element placed all the way to the right in the CSS
