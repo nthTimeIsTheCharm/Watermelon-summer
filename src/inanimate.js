@@ -1,14 +1,9 @@
 class InanimateEntity extends GameEntity {
   static parentElement = document.getElementById("game-area");
 
-  constructor(speed, direction, type) {
-    super(speed, direction);
-    this.type = type;
-    
-    //Create and append the element
-    this.element = document.createElement("div");
-    this.element.classList.add(type);
-    InanimateEntity.parentElement.appendChild(this.element);
+  constructor(speed, direction, position, type) {
+    super(speed, direction, position);
+    this.type = null;
   }
 
   disappear(){

@@ -4,12 +4,19 @@ class Rose extends InanimateEntity {
     InanimateEntity.parentElement.getBoundingClientRect().width
   );
 
-  constructor(speed, direction, type) {
-    super(speed, direction, type);
+  constructor(speed, direction, position, type) {
+    super(speed, direction, position, type);
+    this.speed = 1;
+    this.direction = "down";
+    this.type = "rose";
+    this.element = paintOnScreen(this.type);
 
     //Element placed all the way to the top in the CSS
-    this.element.style.left = this.getRandomXPosition();
+    placeInGameArea(this.element, "x-axis", this.getRandomXPosition());
+    
+    //No need for a value for the x-axis
     this.position.push(0, null);
+
     Rose.rosesArray.push(this);
   }
 
@@ -18,7 +25,6 @@ class Rose extends InanimateEntity {
     const randomXPosition = Math.floor(
       Math.random() * (Rose.gameAreaHeight - elementWidth)
     );
-    return `${randomXPosition}px`;
+    return `${randomXPosition}`;
   }
 }
-

@@ -1,7 +1,7 @@
 class GameEntity {
-  constructor(speed, direction) {
-    this.speed = speed;
-    this.direction = direction;
+  constructor(speed, direction, position) {
+    this.speed = 0;
+    this.direction = null;
     this.position = [];
   }
 

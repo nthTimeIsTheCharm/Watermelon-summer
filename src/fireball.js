@@ -4,20 +4,28 @@ class Fireball extends InanimateEntity {
     InanimateEntity.parentElement.getBoundingClientRect().height
   );
 
-  constructor(speed, direction, type) {
-    super(speed, direction, type);
+  constructor(speed, direction,position, type) {
+    super(speed, direction, position, type);
+    this.speed = 1;
+    this.direction = "left";
+    this.type = "fireball";
+    this.element = paintOnScreen(this.type);
 
     //Element placed all the way to the right in the CSS
-    this.element.style.top = this.getRandomYPosition();
-    this.position.push(null); //No need for a value for the x-axis
-    this.position.push(
-      Math.trunc(
-        InanimateEntity.parentElement.getBoundingClientRect().right -
-          InanimateEntity.parentElement.getBoundingClientRect().left -
-          this.element.getBoundingClientRect().width
-      )
-    );
+    placeInGameArea(this.element, "y-axis", this.getRandomYPosition());
+    
+    //No need for a value for the y-axis
+    this.position.push(null, this.getXPosition()); 
+
     Fireball.fireballsArray.push(this);
+  }
+
+  getXPosition() {
+    return Math.trunc(
+      InanimateEntity.parentElement.getBoundingClientRect().right -
+        InanimateEntity.parentElement.getBoundingClientRect().left -
+        this.element.getBoundingClientRect().width
+    );
   }
 
   getRandomYPosition() {
@@ -25,6 +33,6 @@ class Fireball extends InanimateEntity {
     const randomYPosition = Math.floor(
       Math.random() * (Fireball.gameAreaHeight - elementHeight)
     );
-    return `${randomYPosition}px`;
+    return `${randomYPosition}`;
   }
 }

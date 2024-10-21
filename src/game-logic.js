@@ -1,18 +1,8 @@
-//Speed values
-const playerSpeed = 5;
-const roseSpeed = 1;
-const fireballSpeed = 1;
-
-//Direction values
-const playerDirection = null;
-const roseDirection = "down";
-const fireballDirection = "left";
-
 //Create new game
 const game = new Game();
 
 //Create player and paint lives
-const player = new Player(playerSpeed, playerDirection);
+const player = new Player();
 const livesUl = document.querySelector("#lives ul");
 for (let i = 1; i <= player.lives; i++) {
   const lifeLi = document.createElement("li");
@@ -20,14 +10,23 @@ for (let i = 1; i <= player.lives; i++) {
   livesUl.appendChild(lifeLi);
 }
 
-//Create inanimate entities
-function createRose() {
-  new Rose(roseSpeed, roseDirection, "rose");
+//Place inanimate entities
+function placeInGameArea(element, axis, position) {
+  if (axis === "x-axis") {
+    element.style.left = `${position}px`;
+  } else if (axis === "y-axis") {
+    element.style.top = `${position}px`;
+  }
 }
 
-function createFireball() {
-  new Fireball(fireballSpeed, fireballDirection, "fireball");
+//Print inanimate entities
+function paintOnScreen(objectType){
+  const element = document.createElement("div");
+  element.classList.add(objectType);
+  InanimateEntity.parentElement.appendChild(element);
+  return element;
 }
+
 
 //Continuously move inanimate entities
 
@@ -118,31 +117,38 @@ fireballsArray.forEach(fireball => {
   //remove heart
 } */
 
-//Game loop
-let frame = 0;
 
+  function gameLoop() {
+    requestAnimationFrame(gameLoop);
+    game.frame++;
 
-function gameLoop() {
+    if (game.frame % 200 === 0) {
+      new Rose();
+    }
+    if (game.frame % 300 === 0) {
+      new Fireball();
+    }
+
+    moveInanimateEntities(Rose.rosesArray);
+    moveInanimateEntities(Fireball.fireballsArray);
+
+    //movePlayer
+
+    if (player.jumpCounter > 0 && game.frame % 2 === 0) {
+      applyGravity();
+    }
+
+    //detectCollisions();
+  }
+
   requestAnimationFrame(gameLoop);
-  frame++;
 
-  if (frame % 200 === 0) {
-    createRose();
+
+  function paintGameOver(){
+    game.gameArea.classList.add("game-over");
+    const gameOverMessage = document.createElement("p");
+    gameOverMessage.setAttribute("id", "game-over");
+    gameOverMessage.textContent = "Game over!";
+    //Remove all the elements of the game area
+    game.gameArea.replaceChildren(gameOverMessage);
   }
-  if (frame % 300 === 0) {
-    createFireball();
-  }
-
-  moveInanimateEntities(Rose.rosesArray);
-  moveInanimateEntities(Fireball.fireballsArray);
- 
-  //movePlayer
-
-  if ((player.jumpCounter > 0) && (frame % 2 === 0)){
-    applyGravity();
-}
-  
-  //detectCollisions();
-}
-
-requestAnimationFrame(gameLoop);
