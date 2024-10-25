@@ -1,14 +1,17 @@
 class Player extends GameEntity {
   constructor(speed, direction, position) {
     super(speed, direction, position);
-    this.speed = 10;
+    this.speed = 5;
     this.direction = null;
     this.element = document.getElementById("player");
     this.position.push(0, this.getPlayerPositionX());
     
     this.score = 0;
     this.lives = 5;
+
+    this.jumpSpeed = 5; //or 10..
     this.jumpCounter = 0;
+    this.targetJumpHeight = 0;
     this.jumpHeight = this.getJumpHeight();
     this.smallerJumpHeight = this.getSmallerJumpHeight();
   }
@@ -26,15 +29,17 @@ class Player extends GameEntity {
     this.element.getBoundingClientRect().width / 2;
   }
 
-  jump() {
+  initiateJump() {
     if (this.jumpCounter === 0) {
-      this.position[0] += this.jumpHeight;
+      this.targetJumpHeight += this.jumpHeight;
+      //this.position[0]; 
     } else if (this.jumpCounter === 1) {
-      const smallerJump = Math.floor(this.jumpHeight / 100)*50;
-      this.position[0] += smallerJump;
+      console.log("second jump")
+      this.targetJumpHeight += this.smallerJumpHeight;
+
+      //this.position[0] 
     }
     this.jumpCounter++;
-    return `${this.position[0]}`;
   }
 
   earnPoints(pointIncrement) {

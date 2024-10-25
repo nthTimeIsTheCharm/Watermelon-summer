@@ -30,6 +30,16 @@ class GameEntity {
     }
   }
 
+  moveUp() {
+    /* const withinBoundary = this.checkBottomBoundary(); */
+    /* if (withinBoundary) { */
+      this.position[0] += this.speed;
+      return `${this.position[0]}`;
+   /*  } else if (this instanceof InanimateEntity) {
+      this.disappear();
+    } */
+  }
+
   moveDown() {
     const withinBoundary = this.checkBottomBoundary();
     if (withinBoundary) {

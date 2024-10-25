@@ -20,16 +20,14 @@ function placeInGameArea(element, axis, position) {
 }
 
 //Print inanimate entities
-function paintOnScreen(objectType){
+function paintOnScreen(objectType) {
   const element = document.createElement("div");
   element.classList.add(objectType);
   InanimateEntity.parentElement.appendChild(element);
   return element;
 }
 
-
 //Continuously move inanimate entities
-
 function moveInanimateEntities(entitiesArray) {
   entitiesArray.forEach((entity) => {
     const newPosition = `${entity.move(entity.direction)}px`;
@@ -45,52 +43,114 @@ function moveInanimateEntities(entitiesArray) {
   });
 }
 
-//Get player back to the ground after a jump
-function applyGravity(){
-  if(player.position[0] > 0){
-    const gravityRate = 5;
-    player.position[0] -= gravityRate;
-    player.element.style.bottom = `${player.position[0]}px`;
-  } else if (player.position[0] <= 0) {
-    player.jumpCounter = 0;
-  }
-}
-
-//Move player with event listeners
+//Player event listeners
 document.addEventListener("keydown", (e) => {
   let newPosition = 0;
 
   switch (e.key) {
     case "ArrowLeft":
-      newPosition = `${player.move("left")}px`;
-      player.element.style.left = newPosition;
+      player.direction = "left";
       break;
-      
-      case "ArrowRight":
-        newPosition = `${player.move("right")}px`;
-        player.element.style.left = newPosition;
-        break;
+
+    case "ArrowRight":
+      player.direction = "right";
+      break;
 
     case "ArrowUp":
-        newPosition = `${player.jump()}px`;
-        player.element.style.bottom = newPosition;
-        break;
+      player.initiateJump();
+      break;
   }
 });
 
+document.addEventListener("keyup", () => {
+  player.direction = "null";
+});
 
+function movePlayerHorizontally() {
+  const newPosition = `${player.move(player.direction)}px`;
+  switch (player.direction) {
+    case "left":
+      player.element.style.left = newPosition;
+      player.element.className = "";
+      player.element.classList.add("walking-left");
+      break;
 
-function detectCollisions(entitiesArray){
+    case "right":
+      player.element.className = "";
+      player.element.classList.add("walking-right");
+      player.element.style.left = newPosition;
+      break;
+  }
+}
 
+function maintainCurrentDirectionWalk() {
+  if (
+    player.element.classList.contains("walking-left") ||
+    player.element.classList.contains("standing-left")
+  ) {
+    player.element.className = "";
+    player.element.classList.add("walking-left");
+  } else if (
+    player.element.classList.contains("walking-right") ||
+    player.element.classList.contains("standing-right")
+  ) {
+    player.element.className = "";
+    player.element.classList.add("walking-right");
+  }
+}
+
+function maintainCurrentDirectionStand() {
+  if (
+    player.element.classList.contains("walking-left") ||
+    player.element.classList.contains("standing-left")
+  ) {
+    player.element.className = "";
+    player.element.classList.add("standing-left");
+  } else if (
+    player.element.classList.contains("walking-right") ||
+    player.element.classList.contains("standing-right")
+  ) {
+    player.element.className = "";
+    player.element.classList.add("standing-right");
+  }
+}
+
+function movePlayerVertically() {
+  if (player.targetJumpHeight > 0) {
+    maintainCurrentDirectionWalk();
+    jumpGradually();
+  } else {
+    applyGravity();
+  }
+}
+
+function jumpGradually() {
+  newPosition = `${player.move("up")}px`;
+  player.element.style.bottom = newPosition;
+  player.targetJumpHeight -= player.jumpSpeed;
+}
+
+//Get player back to the ground after a jump
+function applyGravity() {
+  if (player.position[0] > 0) {
+    const gravityRate = player.jumpSpeed * 1.2;
+    player.position[0] -= gravityRate;
+    player.element.style.bottom = `${player.position[0]}px`;
+  } else if (player.position[0] <= 0) {
+    player.jumpCounter = 0;
+    maintainCurrentDirectionStand();
+  }
+}
+
+function detectCollisions(entitiesArray) {
   const playerWidth = player.element.getBoundingClientRect().width;
   const playerHeight = player.element.getBoundingClientRect().height;
   const playerPositionRight = player.element.getBoundingClientRect().right;
   const playerPositionLeft = player.element.getBoundingClientRect().left;
   const playerPositionTop = player.element.getBoundingClientRect().top;
-  const playerPositionBottom = player.element.getBoundingClientRect().bottom; 
+  const playerPositionBottom = player.element.getBoundingClientRect().bottom;
 
   entitiesArray.forEach((entity) => {
-    
     const entityPositionRight = entity.element.getBoundingClientRect().right;
     const entityPositionLeft = entity.element.getBoundingClientRect().left;
     const entityPositionTop = entity.element.getBoundingClientRect().top;
@@ -108,6 +168,7 @@ function detectCollisions(entitiesArray){
           player.earnPoints(entity.pointIncrement);
           scoreTracker.textContent = player.score;
           break;
+
         case "fireball":
           player.getHurt(entity.lifeDecrement);
           livesUl.lastChild.remove();
@@ -115,62 +176,50 @@ function detectCollisions(entitiesArray){
             game.gameOver();
           }
           break;
-        }
-        entity.disappear();
+      }
+
+      entity.disappear();
     }
   });
 }
 
-
-/* function detectCollisionsFireballs(){
-  
-fireballsArray.forEach(fireball => {
-  if (fireball){
-    player.getHurt(fireball.lifeDecrement);
-    }
-  });
-  
-  //remove heart
-} */
+function paintGameOver() {
+  game.gameArea.classList.add("game-over");
+  const gameOverMessage = document.createElement("p");
+  gameOverMessage.setAttribute("id", "game-over");
+  gameOverMessage.textContent = "Game over";
+  const skull = document.createElement("li");
+  skull.textContent = "🪦";
+  livesUl.appendChild(skull);
+  //Remove all the elements of the game area
+  game.gameArea.replaceChildren(gameOverMessage);
+}
 
 let internalGameLoop;
 
-  function gameLoop() {
-    internalGameLoop = requestAnimationFrame(gameLoop);
-    game.frame++;
+function gameLoop() {
+  internalGameLoop = requestAnimationFrame(gameLoop);
+  game.frame++;
 
-    if (game.frame % 200 === 0) {
-      new Rose();
-    }
-    if (game.frame % 300 === 0) {
-      new Fireball();
-    }
+  if (game.frame % 200 === 0) {
+    new Rose();
+  }
+  if (game.frame % 300 === 0) {
+    new Fireball();
+  }
 
-    moveInanimateEntities(Rose.rosesArray);
-    moveInanimateEntities(Fireball.fireballsArray);
+  moveInanimateEntities(Rose.rosesArray);
+  moveInanimateEntities(Fireball.fireballsArray);
 
-    //movePlayer
+  movePlayerHorizontally();
+  movePlayerVertically();
 
-    if (player.jumpCounter > 0 && game.frame % 2 === 0) {
+  /* if (player.jumpCounter > 0 && game.frame % 2 === 0) {
       applyGravity();
-    }
+    } */
 
-    detectCollisions(Rose.rosesArray);
-    detectCollisions(Fireball.fireballsArray);
+  detectCollisions(Rose.rosesArray);
+  detectCollisions(Fireball.fireballsArray);
+}
 
-  }
-
- let externalGameLoop = requestAnimationFrame(gameLoop);
-
-
-  function paintGameOver(){
-    game.gameArea.classList.add("game-over");
-    const gameOverMessage = document.createElement("p");
-    gameOverMessage.setAttribute("id", "game-over");
-    gameOverMessage.textContent = "Game over";
-    const skull = document.createElement("li");
-    skull.textContent = "🪦";
-    livesUl.appendChild(skull);
-    //Remove all the elements of the game area
-    game.gameArea.replaceChildren(gameOverMessage);
-  }
+let externalGameLoop = requestAnimationFrame(gameLoop);

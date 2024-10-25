@@ -46,19 +46,47 @@ body{
 }
 
 #player{
-    block-size: 4.5rem;
-    inline-size: 2rem;
-    background-color: deeppink;
+    /* background-color: deeppink; */
     position: absolute;
     inset-inline-end: 50%;
     inset-block-end: 0;
 }
 
+.standing-right{
+    block-size: 175px;
+    inline-size: 60px;
+    background-image: url(./images/player-stand-right.png);
+    background-size: cover;
+}
+
+.walking-right{
+    block-size: 175px;
+    inline-size: 103px;
+    background-image: url(./images/player-walk-right.png);
+    background-size: cover;
+}
+
+.standing-left{
+    block-size: 175px;
+    inline-size: 60px;
+    background-image: url(./images/player-stand-left.png);
+    background-size: cover;
+}
+
+.walking-left{
+    block-size: 175px;
+    inline-size: 103px;
+    background-image: url(./images/player-walk-left.png);
+    background-size: cover;
+}
+
 .rose{
+    background-image: url(./images/rose2.png);
+    background-size: cover;
     position: absolute;
     inset-block-start: 0;
-    inline-size: 30px;
-    block-size: 30px;
+    inline-size: 40px;
+    block-size: 40px;
     background-color: red;
 }
 
