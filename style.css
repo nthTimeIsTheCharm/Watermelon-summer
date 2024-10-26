@@ -1,10 +1,10 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     block-size: 100vh;
     display: flex;
     flex-direction: column;
@@ -13,7 +13,7 @@ body{
     font-family: "Jersey 25", sans-serif;
 }
 
-#game-area{
+#game-area {
     background-color: black;
     inline-size: 80vw;
     block-size: 80vh;
@@ -22,7 +22,7 @@ body{
 
 
 
-#info{
+#info {
     display: flex;
     justify-content: space-between;
     inline-size: 80vw;
@@ -35,80 +35,93 @@ body{
     padding-inline: 2.5rem;
 }
 
-#lives ul{
+#lives ul {
     list-style: none;
     display: flex;
     gap: 0.5rem;
 }
 
-#score{
+#score {
     text-align: right;
 }
 
-#player{
+#player {
     /* background-color: deeppink; */
+    block-size: 175px;
+    inline-size: 80px;
     position: absolute;
     inset-inline-end: 50%;
     inset-block-end: 0;
     z-index: 3;
 }
 
-.standing-right{
-    block-size: 175px;
-    inline-size: 60px;
-    background-image: url(./images/player-stand-right.png);
+.hit {
+    animation: hit-by-fireball 1s;
+}
+
+@keyframes hit-by-fireball {
+    0% {
+        opacity: 1;
+    }
+    25%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    75%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.standing-right {
+    background-image: url(./images/stand-right.png);
     background-size: cover;
 }
 
-.walking-right{
-    block-size: 175px;
-    inline-size: 103px;
+.walking-right {
     background-size: cover;
     animation: walk-right 0.3s infinite;
 }
 
 @keyframes walk-right {
     0% {
-        block-size: 175px;
-        inline-size: 103px;
-        background-image: url(./images/walk\ right\ I\ hope.png);
+        background-image: url(./images/walk-right.png);
     }
+
     50% {
-        block-size: 175px;
-        inline-size: 60px;
-        background-image: url(./images/stand\ right\ I\ hope.png);
+        background-image: url(./images/stand-right.png);
     }
+
     100% {
-        block-size: 175px;
-        inline-size: 103px;
-        background-image: url(./images/walk\ right\ I\ hope.png);
+        background-image: url(./images/walk-right.png);
     }
 }
 
-.standing-left{
-    block-size: 175px;
-    inline-size: 60px;
-    background-image: url(./images/player-stand-left.png);
+.standing-left {
+    background-image: url(./images/stand-left.png);
     background-size: cover;
 }
 
-.walking-left{
-    block-size: 175px;
-    inline-size: 103px;
-    background-image: url(./images/player-walk-left.png);
+.walking-left {
+    background-image: url(./images/walk-left.png);
     background-size: cover;
 }
 
-.rose{
+.rose {
+    block-size: 40px;
+    inline-size: 40px;
     background-image: url(./images/rose.png);
     background-size: cover;
     position: absolute;
     inset-block-start: 0;
-    inline-size: 40px;
-    block-size: 40px;
+
 }
 
-.points{
+.points {
     color: #F02F39;
     position: absolute;
     inset-block-start: 200px;
@@ -121,17 +134,18 @@ body{
     0% {
         opacity: 1;
     }
-    100%{
+
+    100% {
         opacity: 0;
-    }   
+    }
 }
 
-.old-points{
+.old-points {
     opacity: 0;
 }
 
 
-.fireball{
+.fireball {
     background-image: url(./images/flame.png);
     background-size: cover;
     position: absolute;
@@ -140,7 +154,7 @@ body{
     block-size: 50px;
 }
 
-.game-over{
+.game-over {
     color: white;
     font-size: 10rem;
     display: flex;

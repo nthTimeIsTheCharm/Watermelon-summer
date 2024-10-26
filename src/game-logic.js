@@ -72,13 +72,17 @@ function movePlayerHorizontally() {
   switch (player.direction) {
     case "left":
       player.element.style.left = newPosition;
-      player.element.className = "";
+      player.element.classList.remove("walking-right");
+      player.element.classList.remove("standing-right");
+      player.element.classList.remove("standing-left");
       player.element.classList.add("walking-left");
       //cambiar player width
       break;
 
     case "right":
-      player.element.className = "";
+      player.element.classList.remove("walking-left");
+      player.element.classList.remove("standing-left");
+      player.element.classList.remove("standing-right");
       player.element.classList.add("walking-right");
       player.element.style.left = newPosition;
       break;
@@ -193,6 +197,10 @@ function detectCollisions(entitiesArray) {
         case "fireball":
           player.getHurt(entity.lifeDecrement);
           livesUl.lastChild.remove();
+          player.element.classList.add("hit");
+          setTimeout(()=>{
+            player.element.classList.remove("hit");
+          }, 2000);
           if (player.lives === 0) {
             game.gameOver();
           }
@@ -209,6 +217,7 @@ function clearOldPoints(){
     if (div.classList.contains("old-points")){
       const index = pointsDivs.indexOf(div);
       pointsDivs.splice(index, 1);
+      div.remove();
     }
   });
 }
