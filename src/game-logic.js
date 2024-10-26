@@ -64,6 +64,7 @@ document.addEventListener("keydown", (e) => {
 
 document.addEventListener("keyup", () => {
   player.direction = "null";
+  maintainCurrentDirectionStand();
 });
 
 function movePlayerHorizontally() {
@@ -119,7 +120,7 @@ function movePlayerVertically() {
   if (player.targetJumpHeight > 0) {
     maintainCurrentDirectionWalk();
     jumpGradually();
-  } else {
+  } else if (player.position[0] > 0) {
     applyGravity();
   }
 }
@@ -133,12 +134,12 @@ function jumpGradually() {
 //Get player back to the ground after a jump
 function applyGravity() {
   if (player.position[0] > 0) {
-    const gravityRate = player.jumpSpeed;
-    player.position[0] -= gravityRate;
+    player.position[0] -= player.jumpSpeed;
     player.element.style.bottom = `${player.position[0]}px`;
-  } else if (player.position[0] <= 0) {
+    if (player.position[0] === 0) {
     player.jumpCounter = 0;
     maintainCurrentDirectionStand();
+    }
   }
 }
 
@@ -185,14 +186,15 @@ function detectCollisions(entitiesArray) {
 
 function paintGameOver() {
   game.gameArea.classList.add("game-over");
-  const gameOverMessage = document.createElement("p");
-  gameOverMessage.setAttribute("id", "game-over");
-  gameOverMessage.textContent = "Game over";
-  const skull = document.createElement("li");
-  skull.textContent = "🪦";
-  livesUl.appendChild(skull);
+  const gameOverMessageLine1 = document.createElement("p");
+  const gameOverMessageLine2 = document.createElement("p");
+  gameOverMessageLine1.setAttribute("id", "game-over");
+  gameOverMessageLine2.setAttribute("id", "game-over");
+  gameOverMessageLine1.textContent = "🪦";
+  gameOverMessageLine2.textContent = "Game over";
   //Remove all the elements of the game area
-  game.gameArea.replaceChildren(gameOverMessage);
+  game.gameArea.replaceChildren(gameOverMessageLine1);
+  game.gameArea.appendChild(gameOverMessageLine2);
 }
 
 let internalGameLoop;

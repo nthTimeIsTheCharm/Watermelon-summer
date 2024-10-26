@@ -81,27 +81,28 @@ body{
 }
 
 .rose{
-    background-image: url(./images/rose2.png);
+    background-image: url(./images/rose.png);
     background-size: cover;
     position: absolute;
     inset-block-start: 0;
     inline-size: 40px;
     block-size: 40px;
-    background-color: red;
 }
 
 .fireball{
+    background-image: url(./images/flame.png);
+    background-size: cover;
     position: absolute;
     inset-inline-end: 0;
-    inline-size: 3rem;
-    block-size: 3rem;
-    background-color: orange;
+    inline-size: 70px;
+    block-size: 50px;
 }
 
 .game-over{
     color: white;
     font-size: 10rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;

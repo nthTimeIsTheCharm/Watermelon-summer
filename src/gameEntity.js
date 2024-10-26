@@ -76,16 +76,7 @@ class GameEntity {
   moveLeft() {
     const withinBoundary = this.checkLeftBoundary();
     if (withinBoundary) {
-      ///
-      if (this instanceof Player){console.log("before ", this.position[1]);}
-      
-      this.position[1] -= this.speed;
-
-      ///
-      if (this instanceof Player) {
-        console.log("after ", this.position[1]);
-      }
-
+          this.position[1] -= this.speed;
       return `${this.position[1]}`;
     } else if (this instanceof InanimateEntity) {
       this.disappear();
