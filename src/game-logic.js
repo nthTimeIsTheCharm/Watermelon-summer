@@ -214,10 +214,6 @@ function gameLoop() {
   movePlayerHorizontally();
   movePlayerVertically();
 
-  /* if (player.jumpCounter > 0 && game.frame % 2 === 0) {
-      applyGravity();
-    } */
-
   detectCollisions(Rose.rosesArray);
   detectCollisions(Fireball.fireballsArray);
 }
