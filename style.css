@@ -28,7 +28,7 @@ body{
     inline-size: 80vw;
     background-color: black;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 400;
     font-style: normal;
     padding-block: 2rem;
@@ -50,6 +50,7 @@ body{
     position: absolute;
     inset-inline-end: 50%;
     inset-block-end: 0;
+    z-index: 3;
 }
 
 .standing-right{
@@ -62,8 +63,26 @@ body{
 .walking-right{
     block-size: 175px;
     inline-size: 103px;
-    background-image: url(./images/player-walk-right.png);
     background-size: cover;
+    animation: walk-right 0.3s infinite;
+}
+
+@keyframes walk-right {
+    0% {
+        block-size: 175px;
+        inline-size: 103px;
+        background-image: url(./images/walk\ right\ I\ hope.png);
+    }
+    50% {
+        block-size: 175px;
+        inline-size: 60px;
+        background-image: url(./images/stand\ right\ I\ hope.png);
+    }
+    100% {
+        block-size: 175px;
+        inline-size: 103px;
+        background-image: url(./images/walk\ right\ I\ hope.png);
+    }
 }
 
 .standing-left{
@@ -88,6 +107,29 @@ body{
     inline-size: 40px;
     block-size: 40px;
 }
+
+.points{
+    color: #F02F39;
+    position: absolute;
+    inset-block-start: 200px;
+    inset-inline-start: 200px;
+    font-size: 1.8rem;
+    animation: fade-away 3s;
+}
+
+@keyframes fade-away {
+    0% {
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }   
+}
+
+.old-points{
+    opacity: 0;
+}
+
 
 .fireball{
     background-image: url(./images/flame.png);

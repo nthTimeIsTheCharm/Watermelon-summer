@@ -144,6 +144,8 @@ function applyGravity() {
   }
 }
 
+const pointsDivs = [];
+
 function detectCollisions(entitiesArray) {
   const playerWidth = player.element.getBoundingClientRect().width;
   const playerHeight = player.element.getBoundingClientRect().height;
@@ -176,10 +178,16 @@ function detectCollisions(entitiesArray) {
           const pointsEarned = document.createElement("div");
           pointsEarned.textContent = `+ ${entity.pointIncrement}`;
           pointsEarned.classList.add("points");
+          pointsDivs.push(pointsEarned);
           game.gameArea.appendChild(pointsEarned);
-          pointsEarned.style.top = `${entity.position[0]}px`;
-          pointsEarned.style.right = `${entityPositionRight}px`;
-
+          pointsEarned.style.top = `${entity.position[0] - 10}px`;
+          pointsEarned.style.left = `${entity.position[1] + 10}px`;
+          
+          //using the setTimeout to set divs for deletion once the animation has brought their opacity to 0
+          setTimeout(()=>{
+            pointsEarned.className = "";
+            pointsEarned.classList.add("old-points");
+          }, 3000);
           break;
 
         case "fireball":
@@ -192,6 +200,15 @@ function detectCollisions(entitiesArray) {
       }
 
       entity.disappear();
+    }
+  });
+}
+
+function clearOldPoints(){
+  pointsDivs.forEach((div)=>{
+    if (div.classList.contains("old-points")){
+      const index = pointsDivs.indexOf(div);
+      pointsDivs.splice(index, 1);
     }
   });
 }
@@ -230,6 +247,8 @@ function gameLoop() {
 
   detectCollisions(Rose.rosesArray);
   detectCollisions(Fireball.fireballsArray);
+
+  clearOldPoints();
 }
 
 let externalGameLoop = requestAnimationFrame(gameLoop);
