@@ -133,7 +133,7 @@ function jumpGradually() {
 //Get player back to the ground after a jump
 function applyGravity() {
   if (player.position[0] > 0) {
-    const gravityRate = player.jumpSpeed * 1.2;
+    const gravityRate = player.jumpSpeed;
     player.position[0] -= gravityRate;
     player.element.style.bottom = `${player.position[0]}px`;
   } else if (player.position[0] <= 0) {

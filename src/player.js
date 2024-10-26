@@ -25,8 +25,11 @@ class Player extends GameEntity {
   }
 
   getPlayerPositionX(){
-    return this.element.getBoundingClientRect().left -
+    const startingPosition =
+    this.element.getBoundingClientRect().left -
     this.element.getBoundingClientRect().width / 2;
+    this.element.style.left = startingPosition + "px";
+    return startingPosition;
   }
 
   initiateJump() {
@@ -34,7 +37,6 @@ class Player extends GameEntity {
       this.targetJumpHeight += this.jumpHeight;
       //this.position[0]; 
     } else if (this.jumpCounter === 1) {
-      console.log("second jump")
       this.targetJumpHeight += this.smallerJumpHeight;
 
       //this.position[0] 

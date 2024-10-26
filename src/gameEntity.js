@@ -33,7 +33,7 @@ class GameEntity {
   moveUp() {
     /* const withinBoundary = this.checkBottomBoundary(); */
     /* if (withinBoundary) { */
-      this.position[0] += this.speed;
+      this.position[0] += this.jumpSpeed;
       return `${this.position[0]}`;
    /*  } else if (this instanceof InanimateEntity) {
       this.disappear();
@@ -76,7 +76,16 @@ class GameEntity {
   moveLeft() {
     const withinBoundary = this.checkLeftBoundary();
     if (withinBoundary) {
+      ///
+      if (this instanceof Player){console.log("before ", this.position[1]);}
+      
       this.position[1] -= this.speed;
+
+      ///
+      if (this instanceof Player) {
+        console.log("after ", this.position[1]);
+      }
+
       return `${this.position[1]}`;
     } else if (this instanceof InanimateEntity) {
       this.disappear();
