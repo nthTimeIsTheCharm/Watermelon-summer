@@ -74,6 +74,7 @@ function movePlayerHorizontally() {
       player.element.style.left = newPosition;
       player.element.className = "";
       player.element.classList.add("walking-left");
+      //cambiar player width
       break;
 
     case "right":
@@ -165,9 +166,20 @@ function detectCollisions(entitiesArray) {
     ) {
       switch (entity.type) {
         case "rose":
-          const scoreTracker = document.getElementById("score-value");
           player.earnPoints(entity.pointIncrement);
+
+          // Update score
+          const scoreTracker = document.getElementById("score-value");
           scoreTracker.textContent = player.score;
+          
+          //Show points earned
+          const pointsEarned = document.createElement("div");
+          pointsEarned.textContent = `+ ${entity.pointIncrement}`;
+          pointsEarned.classList.add("points");
+          game.gameArea.appendChild(pointsEarned);
+          pointsEarned.style.top = `${entity.position[0]}px`;
+          pointsEarned.style.right = `${entityPositionRight}px`;
+
           break;
 
         case "fireball":

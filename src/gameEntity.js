@@ -66,7 +66,7 @@ class GameEntity {
     const gameAreaRight = game.gameArea.getBoundingClientRect().right;
     const entityRight = this.element.getBoundingClientRect().right;
 
-    if (gameAreaRight > entityRight + this.speed) {
+    if (gameAreaRight > entityRight + this.speed /** + 43**/) {
       return true;
     } else {
       return false;
