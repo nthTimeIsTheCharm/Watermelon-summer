@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="welcome.css">
+    <title>Roses & dragons</title>
+</head>
+
+<body>
+    <h1>Roses & dragons</h1>
+    <img src="/images/dragon.png" alt="pixel art of a dragon breathing fire">
+    <a href="./index.html" id="start-button">START</a>
+</body>
+<script>
+    function playWelcomeSound() {
+        const audio = new Audio("./audio/welcome-sound.mp3");
+        audio.play();
+    }
+    document.body.addEventListener("click", ()=> {
+        playWelcomeSound();
+    });
+</script>
+</html>

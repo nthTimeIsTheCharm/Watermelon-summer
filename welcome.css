@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    block-size: 100vh;
+    inline-size: 100vw;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Jersey 25", sans-serif;
+}
+
+h1 {
+    color: white;
+    font-size: 6rem;
+}
+
+img{
+    margin: 2rem;
+}
+
+#start-button {
+    all: unset;
+    padding-block-start: 0.45em;
+    padding-block-end: 0.25em;
+    padding-inline: 0.75em;
+    min-width: 10ch;
+    min-height: 44px;
+    text-align: center;
+    line-height: 1.1;
+    background-color: #801845;
+    color: white;
+    font-size: 2rem;
+    border-radius: 10px;
+}
+
+#start-button:hover {
+    cursor: pointer;
+    background-color: #F53D43;
+}

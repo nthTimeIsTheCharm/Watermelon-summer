@@ -27,6 +27,29 @@ function paintOnScreen(objectType) {
   return element;
 }
 
+//Add sounds
+function playJumpSound() {
+  const audio = new Audio("./audio/jump-sound.mp3");
+  audio.play();
+}
+
+function playWinningSound() {
+  const audio = new Audio("./audio/winning-sound.mp3");
+  audio.play();
+}
+
+function playLosingSound() {
+  const audio = new Audio("./audio/losing-sound.mp3");
+  audio.play();
+}
+
+function playGameOverSound() {
+  const audio = new Audio("./audio/gameover-sound.mp3");
+  audio.play();
+}
+
+
+
 //Continuously move inanimate entities
 function moveInanimateEntities(entitiesArray) {
   entitiesArray.forEach((entity) => {
@@ -166,6 +189,7 @@ function detectCollisions(entitiesArray) {
       switch (entity.type) {
         case "rose":
           player.earnPoints(entity.pointIncrement);
+          playWinningSound();
 
           // Update score
           const scoreTracker = document.getElementById("score-value");
@@ -189,12 +213,14 @@ function detectCollisions(entitiesArray) {
 
         case "fireball":
           player.getHurt(entity.lifeDecrement);
+          playLosingSound();
           livesUl.lastChild.remove();
           player.element.classList.add("hit");
           setTimeout(()=>{
             player.element.classList.remove("hit");
           }, 2000);
           if (player.lives === 0) {
+             playGameOverSound();
             game.gameOver();
           }
           break;
