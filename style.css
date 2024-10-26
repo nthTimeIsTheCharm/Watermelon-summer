@@ -47,8 +47,8 @@ body {
 
 #player {
     /* background-color: deeppink; */
-    block-size: 175px;
-    inline-size: 80px;
+    block-size: 159px;
+    inline-size: 72px;
     position: absolute;
     inset-inline-end: 50%;
     inset-block-end: 0;
@@ -84,21 +84,23 @@ body {
 
 .walking-right {
     background-size: cover;
-    animation: walk-right 0.3s infinite;
+    animation: walk-right 0.5s infinite;
 }
 
 @keyframes walk-right {
     0% {
-        background-image: url(./images/walk-right.png);
+        background-image: url(./images/bigger-step-right.png);
     }
-
-    50% {
+    33% {
+        background-image: url(./images/stand-right.png);
+    }
+    66% {
+        background-image: url(./images/other-foot-right.png);
+    }
+    100% {
         background-image: url(./images/stand-right.png);
     }
 
-    100% {
-        background-image: url(./images/walk-right.png);
-    }
 }
 
 .standing-left {
@@ -107,8 +109,37 @@ body {
 }
 
 .walking-left {
-    background-image: url(./images/walk-left.png);
     background-size: cover;
+    animation: walk-left 0.5s infinite;
+}
+
+@keyframes walk-left {
+    0% {
+        background-image: url(./images/bigger-step-left.png);
+    }
+
+    33% {
+        background-image: url(./images/stand-left.png);
+    }
+
+    66% {
+        background-image: url(./images/other-foot-left.png);
+    }
+
+    100% {
+        background-image: url(./images/stand-left.png);
+    }
+
+}
+
+.jumping-left{
+    background-size: cover;
+    background-image: url(./images/bigger-step-left.png);
+}
+
+.jumping-right{
+    background-size: cover;
+    background-image: url(./images/bigger-step-right.png);
 }
 
 .rose {

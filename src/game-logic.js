@@ -72,36 +72,23 @@ function movePlayerHorizontally() {
   switch (player.direction) {
     case "left":
       player.element.style.left = newPosition;
-      player.element.classList.remove("walking-right");
-      player.element.classList.remove("standing-right");
-      player.element.classList.remove("standing-left");
-      player.element.classList.add("walking-left");
-      //cambiar player width
+      if(player.position[0] === 0){
+        player.element.classList.remove("walking-right");
+        player.element.classList.remove("standing-right");
+        player.element.classList.remove("standing-left");
+        player.element.classList.add("walking-left");
+      }
       break;
 
     case "right":
-      player.element.classList.remove("walking-left");
-      player.element.classList.remove("standing-left");
-      player.element.classList.remove("standing-right");
-      player.element.classList.add("walking-right");
       player.element.style.left = newPosition;
+      if(player.position[0] === 0){
+        player.element.classList.remove("walking-left");
+        player.element.classList.remove("standing-left");
+        player.element.classList.remove("standing-right");
+        player.element.classList.add("walking-right");
+      }
       break;
-  }
-}
-
-function maintainCurrentDirectionWalk() {
-  if (
-    player.element.classList.contains("walking-left") ||
-    player.element.classList.contains("standing-left")
-  ) {
-    player.element.className = "";
-    player.element.classList.add("walking-left");
-  } else if (
-    player.element.classList.contains("walking-right") ||
-    player.element.classList.contains("standing-right")
-  ) {
-    player.element.className = "";
-    player.element.classList.add("walking-right");
   }
 }
 
@@ -123,7 +110,6 @@ function maintainCurrentDirectionStand() {
 
 function movePlayerVertically() {
   if (player.targetJumpHeight > 0) {
-    maintainCurrentDirectionWalk();
     jumpGradually();
   } else if (player.position[0] > 0) {
     applyGravity();
@@ -134,6 +120,13 @@ function jumpGradually() {
   newPosition = `${player.move("up")}px`;
   player.element.style.bottom = newPosition;
   player.targetJumpHeight -= player.jumpSpeed;
+  player.element.classList.remove("walking-right");
+  player.element.classList.remove("walking-left");
+  if(player.direction === "left"){
+    player.element.classList.add("jumping-left");
+  } else if (player.direction === "right") {
+    player.element.classList.add("jumping-right");
+  }
 }
 
 //Get player back to the ground after a jump
