@@ -3,6 +3,7 @@ class Player extends GameEntity {
     super(speed, direction, position);
     this.speed = 5;
     this.direction = null;
+    this.lastDirection = "right";
     this.element = document.getElementById("player");
     this.position.push(0, this.getPlayerPositionX());
     

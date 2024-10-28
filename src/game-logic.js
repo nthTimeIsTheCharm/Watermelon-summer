@@ -67,16 +67,19 @@ function moveInanimateEntities(entitiesArray) {
 }
 
 //Player event listeners
+
 document.addEventListener("keydown", (e) => {
   let newPosition = 0;
 
   switch (e.key) {
     case "ArrowLeft":
       player.direction = "left";
+      player.lastDirection = "left";
       break;
 
     case "ArrowRight":
       player.direction = "right";
+      player.lastDirection = "right";
       break;
 
     case "ArrowUp":
@@ -100,16 +103,22 @@ function movePlayerHorizontally() {
         player.element.classList.remove("standing-right");
         player.element.classList.remove("standing-left");
         player.element.classList.add("walking-left");
+      } else if (player.element.classList.contains("jumping-right")){
+        player.element.classList.remove("jumping-right");
+        player.element.classList.add("jumping-left");
       }
       break;
 
     case "right":
       player.element.style.left = newPosition;
-      if(player.position[0] === 0){
+      if (player.position[0] === 0) {
         player.element.classList.remove("walking-left");
         player.element.classList.remove("standing-left");
         player.element.classList.remove("standing-right");
         player.element.classList.add("walking-right");
+      } else if (player.element.classList.contains("jumping-left")) {
+        player.element.classList.remove("jumping-left");
+        player.element.classList.add("jumping-right");
       }
       break;
   }
@@ -117,16 +126,20 @@ function movePlayerHorizontally() {
 
 function maintainCurrentDirectionStand() {
   if (
-    player.element.classList.contains("walking-left") ||
-    player.element.classList.contains("standing-left")
+    /* player.element.classList.contains("walking-left") ||
+    player.element.classList.contains("jumping-left") */
+    player.lastDirection === "left"
   ) {
-    player.element.className = "";
+    player.element.classList.remove("walking-left");
+    player.element.classList.remove("jumping-left");
     player.element.classList.add("standing-left");
   } else if (
-    player.element.classList.contains("walking-right") ||
-    player.element.classList.contains("standing-right")
+    /* player.element.classList.contains("walking-right") ||
+    player.element.classList.contains("jumping-right") */
+    player.lastDirection === "right"
   ) {
-    player.element.className = "";
+    player.element.classList.remove("walking-right");
+    player.element.classList.remove("jumping-right");
     player.element.classList.add("standing-right");
   }
 }
@@ -143,13 +156,31 @@ function jumpGradually() {
   newPosition = `${player.move("up")}px`;
   player.element.style.bottom = newPosition;
   player.targetJumpHeight -= player.jumpSpeed;
-  player.element.classList.remove("walking-right");
-  player.element.classList.remove("walking-left");
-  if(player.direction === "left"){
+  setJumpDirection();
+  removeMovementClasses();
+}
+
+function setJumpDirection(){
+  if (
+    player.direction === "left" ||
+    player.element.classList.contains("walking-left") ||
+    player.element.classList.contains("standing-left")
+  ) {
     player.element.classList.add("jumping-left");
-  } else if (player.direction === "right") {
+  } else if (
+    player.direction === "right" ||
+    player.element.classList.contains("walking-right") ||
+    player.element.classList.contains("standing-right")
+  ) {
     player.element.classList.add("jumping-right");
   }
+}
+
+function removeMovementClasses(){
+  player.element.classList.remove("standing-right");
+  player.element.classList.remove("standing-left");
+  player.element.classList.remove("walking-right");
+  player.element.classList.remove("walking-left");
 }
 
 //Get player back to the ground after a jump
@@ -158,8 +189,10 @@ function applyGravity() {
     player.position[0] -= player.jumpSpeed;
     player.element.style.bottom = `${player.position[0]}px`;
     if (player.position[0] === 0) {
-    player.jumpCounter = 0;
-    maintainCurrentDirectionStand();
+      player.jumpCounter = 0;
+      maintainCurrentDirectionStand();
+      player.element.classList.remove("jumping-right");
+      player.element.classList.remove("jumping-left");
     }
   }
 }
