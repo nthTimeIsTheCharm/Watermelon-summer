@@ -173,14 +173,14 @@ body {
     inset-block-start: 200px;
     inset-inline-start: 200px;
     font-size: 1.8rem;
-    animation: fade-away 3s;
+    animation: fade-away 4s;
 }
 
 @keyframes fade-away {
     0% {
         opacity: 1;
     }
-
+    70%,
     100% {
         opacity: 0;
     }
