@@ -69,15 +69,13 @@ function moveInanimateEntities(entitiesArray) {
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowLeft":
-      player.direction = "left";
+      player.currentDirection = "left";
       player.lastDirection = "left";
-      console.log(player.lastDirection);
       break;
 
     case "ArrowRight":
-      player.direction = "right";
+      player.currentDirection = "right";
       player.lastDirection = "right";
-      console.log(player.lastDirection);
       break;
 
     case "ArrowUp":
@@ -87,7 +85,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("keyup", () => {
-  player.direction = null;
+  player.currentDirection = null;
   if (player.position[0] === 0) {
     setStandingDirection();
   }
@@ -104,7 +102,7 @@ function removeMovementClasses() {
 
 function setMovingDirectionWalk() {
   removeMovementClasses();
-  switch (player.direction) {
+  switch (player.currentDirection) {
     case "left":
       player.element.classList.add("walking-left");
       break;
@@ -116,7 +114,7 @@ function setMovingDirectionWalk() {
 
 function setMovingDirectionJump() {
   removeMovementClasses();
-  switch (player.direction) {
+  switch (player.currentDirection) {
     case "left":
       player.element.classList.add("jumping-left");
       break;
@@ -127,8 +125,8 @@ function setMovingDirectionJump() {
 }
 
 function movePlayerHorizontally() {
-  if (player.direction === "left" || player.direction === "right") {
-    const newPosition = `${player.move(player.direction)}px`;
+  if (player.currentDirection === "left" || player.currentDirection === "right") {
+    const newPosition = `${player.move(player.currentDirection)}px`;
     player.element.style.left = newPosition;
 
     if (player.position[0] === 0) {
@@ -270,11 +268,13 @@ function clearOldPoints() {
 function paintGameOver() {
   const gameOverMessageLine1 = document.createElement("p");
   const gameOverMessageLine2 = document.createElement("p");
-  gameOverMessageLine1.classList.add("game-over");
-  gameOverMessageLine2.classList.add("game-over");
+  
+  game.gameArea.classList.remove("game-live");
+  game.gameArea.classList.add("game-over");
+  
   gameOverMessageLine1.textContent = "🪦";
   gameOverMessageLine2.textContent = "Game over";
-  game.gameArea.classList.add("game-over");
+  
   //Remove all the elements of the game area
   game.gameArea.replaceChildren(gameOverMessageLine1);
   game.gameArea.appendChild(gameOverMessageLine2);
@@ -296,8 +296,8 @@ function gameLoop() {
   moveInanimateEntities(Rose.rosesArray);
   moveInanimateEntities(Fireball.fireballsArray);
 
-  //player.direction is set to null at keyup
-  if (player.direction !== null) {
+  //player.currentDirection is set to null at keyup
+  if (player.currentDirection !== null) {
     movePlayerHorizontally();
   }
 

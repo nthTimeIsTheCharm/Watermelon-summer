@@ -18,8 +18,21 @@ body {
     inline-size: 80vw;
     block-size: 80vh;
     position: relative;
+}
+
+.game-live {
     background-image: url('./images/Barcelona3.png');
     background-size: cover;
+}
+
+.game-over {
+    color: white;
+    font-size: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 
@@ -185,15 +198,4 @@ body {
     inset-inline-end: 0;
     inline-size: 70px;
     block-size: 50px;
-}
-
-.game-over {
-    color: white;
-    font-size: 10rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-image: none; //does nothing
 }
