@@ -21,7 +21,8 @@ body {
 }
 
 .game-live {
-    background-image: url('./images/Barcelona3.png');
+    background-image: url('./images/Barcelona-by-night2.png');
+    background-position: bottom;
     background-size: cover;
 }
 
