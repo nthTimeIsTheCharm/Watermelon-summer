@@ -1,5 +1,6 @@
 class Rose extends InanimateEntity {
   static rosesArray = [];
+  static pointsDivs = [];
   static gameAreaHeight = Math.trunc(
     InanimateEntity.parentElement.getBoundingClientRect().width
   );

@@ -18,6 +18,8 @@ body {
     inline-size: 80vw;
     block-size: 80vh;
     position: relative;
+    background-image: url('./images/Barcelona3.png');
+    background-size: cover;
 }
 
 
@@ -55,8 +57,8 @@ body {
     z-index: 3;
 }
 
-.hit {
-    animation: hit-by-fireball 1s;
+.hurt {
+    animation: hit-by-fireball 1.5s;
 }
 
 @keyframes hit-by-fireball {
@@ -193,4 +195,5 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    background-image: none; //does nothing
 }

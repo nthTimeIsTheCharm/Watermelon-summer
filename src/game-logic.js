@@ -48,8 +48,6 @@ function playGameOverSound() {
   audio.play();
 }
 
-
-
 //Continuously move inanimate entities
 function moveInanimateEntities(entitiesArray) {
   entitiesArray.forEach((entity) => {
@@ -69,17 +67,17 @@ function moveInanimateEntities(entitiesArray) {
 //Player event listeners
 
 document.addEventListener("keydown", (e) => {
-  let newPosition = 0;
-
   switch (e.key) {
     case "ArrowLeft":
       player.direction = "left";
       player.lastDirection = "left";
+      console.log(player.lastDirection);
       break;
 
     case "ArrowRight":
       player.direction = "right";
       player.lastDirection = "right";
+      console.log(player.lastDirection);
       break;
 
     case "ArrowUp":
@@ -89,57 +87,65 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("keyup", () => {
-  player.direction = "null";
-  maintainCurrentDirectionStand();
+  player.direction = null;
+  if (player.position[0] === 0) {
+    setStandingDirection();
+  }
 });
 
-function movePlayerHorizontally() {
-  const newPosition = `${player.move(player.direction)}px`;
+function removeMovementClasses() {
+  player.element.classList.remove("standing-right");
+  player.element.classList.remove("standing-left");
+  player.element.classList.remove("walking-right");
+  player.element.classList.remove("walking-left");
+  player.element.classList.remove("jumping-right");
+  player.element.classList.remove("jumping-left");
+}
+
+function setMovingDirectionWalk() {
+  removeMovementClasses();
   switch (player.direction) {
     case "left":
-      player.element.style.left = newPosition;
-      if(player.position[0] === 0){
-        player.element.classList.remove("walking-right");
-        player.element.classList.remove("standing-right");
-        player.element.classList.remove("standing-left");
-        player.element.classList.add("walking-left");
-      } else if (player.element.classList.contains("jumping-right")){
-        player.element.classList.remove("jumping-right");
-        player.element.classList.add("jumping-left");
-      }
+      player.element.classList.add("walking-left");
       break;
-
     case "right":
-      player.element.style.left = newPosition;
-      if (player.position[0] === 0) {
-        player.element.classList.remove("walking-left");
-        player.element.classList.remove("standing-left");
-        player.element.classList.remove("standing-right");
-        player.element.classList.add("walking-right");
-      } else if (player.element.classList.contains("jumping-left")) {
-        player.element.classList.remove("jumping-left");
-        player.element.classList.add("jumping-right");
-      }
+      player.element.classList.add("walking-right");
       break;
   }
 }
 
-function maintainCurrentDirectionStand() {
-  if (
-    /* player.element.classList.contains("walking-left") ||
-    player.element.classList.contains("jumping-left") */
-    player.lastDirection === "left"
-  ) {
-    player.element.classList.remove("walking-left");
-    player.element.classList.remove("jumping-left");
+function setMovingDirectionJump() {
+  removeMovementClasses();
+  switch (player.direction) {
+    case "left":
+      player.element.classList.add("jumping-left");
+      break;
+    case "right":
+      player.element.classList.add("jumping-right");
+      break;
+  }
+}
+
+function movePlayerHorizontally() {
+  if (player.direction === "left" || player.direction === "right") {
+    const newPosition = `${player.move(player.direction)}px`;
+    player.element.style.left = newPosition;
+
+    if (player.position[0] === 0) {
+      //Player on the ground
+      setMovingDirectionWalk();
+    } else if (player.position[0] > 0) {
+      //Player jumping
+      setMovingDirectionJump();
+    }
+  }
+}
+
+function setStandingDirection() {
+  removeMovementClasses();
+  if (player.lastDirection === "left") {
     player.element.classList.add("standing-left");
-  } else if (
-    /* player.element.classList.contains("walking-right") ||
-    player.element.classList.contains("jumping-right") */
-    player.lastDirection === "right"
-  ) {
-    player.element.classList.remove("walking-right");
-    player.element.classList.remove("jumping-right");
+  } else if (player.lastDirection === "right") {
     player.element.classList.add("standing-right");
   }
 }
@@ -152,52 +158,38 @@ function movePlayerVertically() {
   }
 }
 
+function setJumpingDirection() {
+  removeMovementClasses();
+  switch (player.lastDirection) {
+    case "left":
+      player.element.classList.add("jumping-left");
+      break;
+
+    case "right":
+      player.element.classList.add("jumping-right");
+      break;
+  }
+}
+
 function jumpGradually() {
   newPosition = `${player.move("up")}px`;
   player.element.style.bottom = newPosition;
   player.targetJumpHeight -= player.jumpSpeed;
-  setJumpDirection();
-  removeMovementClasses();
+  setJumpingDirection();
 }
-
-function setJumpDirection(){
-  if (
-    player.direction === "left" ||
-    player.element.classList.contains("walking-left") ||
-    player.element.classList.contains("standing-left")
-  ) {
-    player.element.classList.add("jumping-left");
-  } else if (
-    player.direction === "right" ||
-    player.element.classList.contains("walking-right") ||
-    player.element.classList.contains("standing-right")
-  ) {
-    player.element.classList.add("jumping-right");
-  }
-}
-
-function removeMovementClasses(){
-  player.element.classList.remove("standing-right");
-  player.element.classList.remove("standing-left");
-  player.element.classList.remove("walking-right");
-  player.element.classList.remove("walking-left");
-}
-
 //Get player back to the ground after a jump
 function applyGravity() {
   if (player.position[0] > 0) {
-    player.position[0] -= player.jumpSpeed;
+    player.position[0] -= player.jumpSpeed * 1.5;
     player.element.style.bottom = `${player.position[0]}px`;
     if (player.position[0] === 0) {
       player.jumpCounter = 0;
-      maintainCurrentDirectionStand();
-      player.element.classList.remove("jumping-right");
-      player.element.classList.remove("jumping-left");
+      setStandingDirection();
     }
   }
 }
 
-const pointsDivs = [];
+//const pointsDivs = []; //created the array as static within the Rose class instead
 
 function detectCollisions(entitiesArray) {
   const playerWidth = player.element.getBoundingClientRect().width;
@@ -227,19 +219,19 @@ function detectCollisions(entitiesArray) {
           // Update score
           const scoreTracker = document.getElementById("score-value");
           scoreTracker.textContent = player.score;
-          
+
           //Show points earned
           const pointsEarned = document.createElement("div");
           pointsEarned.textContent = `+ ${entity.pointIncrement}`;
           pointsEarned.classList.add("points");
-          pointsDivs.push(pointsEarned);
+          Rose.pointsDivs.push(pointsEarned);
           game.gameArea.appendChild(pointsEarned);
           pointsEarned.style.top = `${entity.position[0] - 10}px`;
           pointsEarned.style.left = `${entity.position[1] + 10}px`;
-          
+
           //using the setTimeout to set divs for deletion once the animation has brought their opacity to 0
-          setTimeout(()=>{
-            pointsEarned.className = "";
+          setTimeout(() => {
+            pointsEarned.classList.remove("points");
             pointsEarned.classList.add("old-points");
           }, 3000);
           break;
@@ -248,12 +240,13 @@ function detectCollisions(entitiesArray) {
           player.getHurt(entity.lifeDecrement);
           playLosingSound();
           livesUl.lastChild.remove();
-          player.element.classList.add("hit");
-          setTimeout(()=>{
-            player.element.classList.remove("hit");
+          player.element.classList.add("hurt");
+
+          setTimeout(() => {
+            player.element.classList.remove("hurt");
           }, 2000);
           if (player.lives === 0) {
-             playGameOverSound();
+            playGameOverSound();
             game.gameOver();
           }
           break;
@@ -264,24 +257,24 @@ function detectCollisions(entitiesArray) {
   });
 }
 
-function clearOldPoints(){
-  pointsDivs.forEach((div)=>{
-    if (div.classList.contains("old-points")){
-      const index = pointsDivs.indexOf(div);
-      pointsDivs.splice(index, 1);
+function clearOldPoints() {
+  Rose.pointsDivs.forEach((div) => {
+    if (div.classList.contains("old-points")) {
+      const index = Rose.pointsDivs.indexOf(div);
+      Rose.pointsDivs.splice(index, 1);
       div.remove();
     }
   });
 }
 
 function paintGameOver() {
-  game.gameArea.classList.add("game-over");
   const gameOverMessageLine1 = document.createElement("p");
   const gameOverMessageLine2 = document.createElement("p");
-  gameOverMessageLine1.setAttribute("id", "game-over");
-  gameOverMessageLine2.setAttribute("id", "game-over");
+  gameOverMessageLine1.classList.add("game-over");
+  gameOverMessageLine2.classList.add("game-over");
   gameOverMessageLine1.textContent = "🪦";
   gameOverMessageLine2.textContent = "Game over";
+  game.gameArea.classList.add("game-over");
   //Remove all the elements of the game area
   game.gameArea.replaceChildren(gameOverMessageLine1);
   game.gameArea.appendChild(gameOverMessageLine2);
@@ -303,8 +296,14 @@ function gameLoop() {
   moveInanimateEntities(Rose.rosesArray);
   moveInanimateEntities(Fireball.fireballsArray);
 
-  movePlayerHorizontally();
-  movePlayerVertically();
+  //player.direction is set to null at keyup
+  if (player.direction !== null) {
+    movePlayerHorizontally();
+  }
+
+  if (player.jumpCounter > 0){
+    movePlayerVertically();
+  }
 
   detectCollisions(Rose.rosesArray);
   detectCollisions(Fireball.fireballsArray);
