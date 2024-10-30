@@ -169,7 +169,7 @@ function jumpGradually() {
 //Get player back to the ground after a jump
 function applyGravity() {
   if (player.position[0] > 0) {
-    /* if (player.position[0] < player.jumpSpeed * 1.5) {
+    if (player.position[0] < player.jumpSpeed * 1.5) {
       player.position[0] = 0; //to avoid negative values for the player's vertical position
     } else {
       player.position[0] -= player.jumpSpeed * 1.5;
@@ -180,9 +180,9 @@ function applyGravity() {
     if (player.position[0] === 0) {
       player.jumpCounter = 0;
       setStandingDirection();
-    } */
+    }
 
-    if (player.position[0] < (player.jumpSpeed * 1.5)){
+    /* if (player.position[0] < (player.jumpSpeed * 1.5)){
       player.position[0] = 0; //to avoid negative values for the player's vertical position
       player.element.style.bottom = `${player.position[0]}px`;
       player.jumpCounter = 0;
@@ -190,7 +190,7 @@ function applyGravity() {
     } else {
       player.element.style.bottom = `${player.position[0]}px`;
       player.position[0] -= player.jumpSpeed * 1.5;
-    }
+    } */
   }
 }
 
