@@ -10,7 +10,7 @@ class Player extends GameEntity {
     this.score = 0;
     this.lives = 5;
 
-    this.jumpSpeed = 5; //or 10..
+    this.jumpSpeed = 5;
     this.jumpCounter = 0;
     this.targetJumpHeight = 0;
     this.jumpHeight = this.getJumpHeight();
@@ -18,11 +18,15 @@ class Player extends GameEntity {
   }
 
   getJumpHeight(){
-    return Math.floor(game.gameArea.getBoundingClientRect().height / 10) * 5; //so that it's a multiple of 5 as the fall decrement is 5
+    return Math.floor(game.gameArea.getBoundingClientRect().height / 10) * 5;
+    //First jump is half the height of the game area
+    //We need a multiple of 5 as the fall decrement is 5
   }
 
   getSmallerJumpHeight(){
     return Math.floor(this.jumpHeight / 100)*50;
+    //The second consecutive jump is half the initial jump
+    //looking for a multiple of 5 here too
   }
 
   getPlayerPositionX(){

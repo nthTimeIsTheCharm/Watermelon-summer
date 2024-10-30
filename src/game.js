@@ -7,7 +7,7 @@ class Game {
   }
 
   gameOver() {
-    paintGameOver();
+    showGameOver();
     cancelAnimationFrame(internalGameLoop);
     cancelAnimationFrame(externalGameLoop);
   }

@@ -1,10 +1,13 @@
 class Fireball extends InanimateEntity {
+  static frequency = 200;
   static fireballsArray = [];
-  static gameAreaHeight = Math.trunc(
-    InanimateEntity.parentElement.getBoundingClientRect().height
-  );
 
-  constructor(speed, direction,position, type) {
+  static getNewFrameNumber() {
+    const newFrameNumber = Math.ceil(Math.random() * Fireball.frequency);
+    return newFrameNumber;
+  }
+
+  constructor(speed, direction, position, type) {
     super(speed, direction, position, type);
     this.speed = 1;
     this.direction = "left";
@@ -14,9 +17,9 @@ class Fireball extends InanimateEntity {
 
     //Element placed all the way to the right in the CSS
     placeInGameArea(this.element, "y-axis", this.getRandomYPosition());
-    
+
     //No need for a value for the y-axis
-    this.position.push(null, this.getXPosition()); 
+    this.position.push(null, this.getXPosition());
 
     Fireball.fireballsArray.push(this);
   }
@@ -32,7 +35,7 @@ class Fireball extends InanimateEntity {
   getRandomYPosition() {
     const elementHeight = this.element.getBoundingClientRect().height;
     const randomYPosition = Math.floor(
-      Math.random() * (Fireball.gameAreaHeight - elementHeight)
+      Math.random() * (game.gameAreaHeight - elementHeight)
     );
     return `${randomYPosition}`;
   }

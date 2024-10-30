@@ -31,13 +31,11 @@ class GameEntity {
   }
 
   moveUp() {
-    /* const withinBoundary = this.checkBottomBoundary(); */
-    /* if (withinBoundary) { */
+      //Not checking the top boundary
+      //the player's jump height is calculated based to the game area width
       this.position[0] += this.jumpSpeed;
       return `${this.position[0]}`;
-   /*  } else if (this instanceof InanimateEntity) {
-      this.disappear();
-    } */
+   
   }
 
   moveDown() {

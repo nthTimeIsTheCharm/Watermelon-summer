@@ -1,9 +1,12 @@
 class Rose extends InanimateEntity {
+  static frequency = 300;
   static rosesArray = [];
-  static pointsDivs = [];
-  static gameAreaHeight = Math.trunc(
-    InanimateEntity.parentElement.getBoundingClientRect().width
-  );
+  static pointsEarnedDivs = [];
+  
+  static getNewFrameNumber() {
+    const newFrameNumber = Math.ceil(Math.random() * Rose.frequency);
+    return newFrameNumber;
+  }
 
   constructor(speed, direction, position, type) {
     super(speed, direction, position, type);
@@ -12,13 +15,13 @@ class Rose extends InanimateEntity {
     this.type = "rose";
     this.pointIncrement = 5;
     this.element = paintOnScreen(this.type);
-    
+
     //Element placed all the way to the top in the CSS
     this.position.push(0);
 
     //The value for the x-axis stays constant but is used to paint the points upon collision
     this.position.push(this.getRandomXPosition());
-    
+
     Rose.rosesArray.push(this);
 
     placeInGameArea(this.element, "x-axis", this.position[1]);
