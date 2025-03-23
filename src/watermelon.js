@@ -1,10 +1,10 @@
-class Rose extends InanimateEntity {
+class Watermelon extends InanimateEntity {
   static frequency = 300;
-  static rosesArray = [];
+  static gelatiArray = [];
   static pointsEarnedDivs = [];
-  
+
   static getNewFrameNumber() {
-    const newFrameNumber = Math.ceil(Math.random() * Rose.frequency);
+    const newFrameNumber = Math.ceil(Math.random() * Watermelon.frequency);
     return newFrameNumber;
   }
 
@@ -12,7 +12,7 @@ class Rose extends InanimateEntity {
     super(speed, direction, position, type);
     this.speed = 1;
     this.direction = "down";
-    this.type = "rose";
+    this.type = "watermelon";
     this.pointIncrement = 5;
     this.element = paintOnScreen(this.type);
 
@@ -22,7 +22,7 @@ class Rose extends InanimateEntity {
     //The value for the x-axis stays constant but is used to paint the points upon collision
     this.position.push(this.getRandomXPosition());
 
-    Rose.rosesArray.push(this);
+    Watermelon.gelatiArray.push(this);
 
     placeInGameArea(this.element, "x-axis", this.position[1]);
   }

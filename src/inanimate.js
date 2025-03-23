@@ -6,11 +6,11 @@ class InanimateEntity extends GameEntity {
     this.type = null;
   }
 
-  disappear(){
-    if (this.type === "rose") {
+  disappear() {
+    if (this.type === "watermelon") {
       this.element.remove();
-      const index = Rose.rosesArray.indexOf(this);
-      Rose.rosesArray.splice(index, 1);
+      const index = Watermelon.gelatiArray.indexOf(this);
+      Watermelon.gelatiArray.splice(index, 1);
     } else if (this.type === "fireball") {
       this.element.remove();
       const index = Fireball.fireballsArray.indexOf(this);
@@ -18,6 +18,3 @@ class InanimateEntity extends GameEntity {
     }
   }
 }
-
-
-

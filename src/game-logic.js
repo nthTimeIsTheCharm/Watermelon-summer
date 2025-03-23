@@ -42,7 +42,7 @@ function moveInanimateEntities(entitiesArray) {
     const newPosition = `${entity.move(entity.direction)}px`;
 
     switch (entity.type) {
-      case "rose":
+      case "watermelon":
         entity.element.style.top = newPosition;
         break;
       case "fireball":
@@ -203,7 +203,7 @@ function showPointsEarned(entity) {
   const pointsEarnedDiv = document.createElement("div");
   pointsEarnedDiv.textContent = `+ ${entity.pointIncrement}`;
   pointsEarnedDiv.classList.add("points");
-  Rose.pointsEarnedDivs.push(pointsEarnedDiv);
+  Watermelon.pointsEarnedDivs.push(pointsEarnedDiv);
   game.gameArea.appendChild(pointsEarnedDiv);
   pointsEarnedDiv.style.top = `${entity.position[0] - 10}px`;
   pointsEarnedDiv.style.left = `${entity.position[1] + 10}px`;
@@ -219,7 +219,7 @@ function setPointsUpForDeletion(pointsEarnedDiv) {
   }, 3000);
 }
 
-function collideWithRose(entity) {
+function collideWithGelato(entity) {
   player.earnPoints(entity.pointIncrement); //HERE
   playWinningSound();
   updateScore();
@@ -253,8 +253,8 @@ function collideWithFireball(entity) {
 
 function manageCollision(entity) {
   switch (entity.type) {
-    case "rose":
-      collideWithRose(entity);
+    case "watermelon":
+      collideWithGelato(entity);
       break;
 
     case "fireball":
@@ -288,10 +288,10 @@ function detectCollisions(entitiesArray) {
 }
 
 function clearOldPoints() {
-  Rose.pointsEarnedDivs.forEach((div) => {
+  Watermelon.pointsEarnedDivs.forEach((div) => {
     if (div.classList.contains("old-points")) {
-      const index = Rose.pointsEarnedDivs.indexOf(div);
-      Rose.pointsEarnedDivs.splice(index, 1);
+      const index = Watermelon.pointsEarnedDivs.indexOf(div);
+      Watermelon.pointsEarnedDivs.splice(index, 1);
       div.remove();
     }
   });
@@ -317,26 +317,26 @@ function gameLoop() {
   internalGameLoop = requestAnimationFrame(gameLoop);
   game.frame++;
 
-  //One rose and one fireball appears within a designated interval
+  //One watermelon and one fireball appears within a designated interval
   //but at a random frame
-  //i.e. One rose each 300 frames, but at a random point within those 300 frames
-  // Create new roses and fireballs, if we've reached the random frame
-  if (game.frame === roseNextFrame) {
-    new Rose();
+  //i.e. One watermelon each 300 frames, but at a random point within those 300 frames
+  // Create new gelati and fireballs, if we've reached the random frame
+  if (game.frame === gelatoNextFrame) {
+    new Watermelon();
   }
   if (game.frame === fireballNextFrame) {
     new Fireball();
   }
 
   // Change the random frame after each interval
-  if (game.frame % Rose.frequency === 0) {
-    roseNextFrame = game.frame + Rose.getNewFrameNumber();
+  if (game.frame % Watermelon.frequency === 0) {
+    gelatoNextFrame = game.frame + Watermelon.getNewFrameNumber();
   }
   if (game.frame % Fireball.frequency === 0) {
     fireballNextFrame = game.frame + Fireball.getNewFrameNumber();
   }
 
-  moveInanimateEntities(Rose.rosesArray);
+  moveInanimateEntities(Watermelon.gelatiArray);
   moveInanimateEntities(Fireball.fireballsArray);
 
   //player.currentDirection is set to null at keyup
@@ -348,7 +348,7 @@ function gameLoop() {
     movePlayerVertically();
   }
 
-  detectCollisions(Rose.rosesArray);
+  detectCollisions(Watermelon.gelatiArray);
   detectCollisions(Fireball.fireballsArray);
   clearOldPoints();
 }
@@ -365,8 +365,8 @@ for (let i = 1; i <= player.lives; i++) {
   livesUl.appendChild(lifeLi);
 }
 
-//Add initial values for the first rose and the first fireball to appear
-let roseNextFrame = Rose.frequency;
+//Add initial values for the first watermelon and the first fireball to appear
+let gelatoNextFrame = Watermelon.frequency;
 let fireballNextFrame = Fireball.frequency;
 
 //Start the game loop
