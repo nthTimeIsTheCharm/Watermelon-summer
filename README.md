@@ -15,6 +15,4 @@ An endless loop using internalGameLoop takes care of calling the different funct
 Almost all DOM manipulation is done outside the classes with the aim to have classes just take care of the underlying game logic.
 
 ## Game visuals
-
-- <a href="https://www.vecteezy.com/free-vector/melon">Watermelon vector by Vecteezy</a>
-- The remaining images are all pixel art created with AI and tweaked in Figma.
+- All images are all pixel art created with AI and tweaked in Figma.

@@ -184,7 +184,7 @@ div#score {
 
 .watermelon {
     block-size: 50px;
-    inline-size: 50px;
+    inline-size: 45px;
     background-image: url(./images/watermelon.png);
     background-size: cover;
     position: absolute;
