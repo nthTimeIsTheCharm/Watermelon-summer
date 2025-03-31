@@ -4,7 +4,7 @@
 
 Single player run and jump game inspired by hot Mediterranean summers where you need to protect yourself from the heat and stay refreshed and hydrated. The player can move horizontally and vertically in order to catch watermelon slices 🍉 which give them points while avoiding fireballs which take away lives ❤️.
 
-![Alt text](./images/sample%20game%20screenshot.gif "Game screenshot")
+![Alt text](./images/game-screenshot.gif "Game screenshot")
 
 ## Code structure
 
